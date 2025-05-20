@@ -1,16 +1,20 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import random
+import npttf2utf
+import os
 
 app = Flask(__name__)
 CORS(app)  # 👈 Allow all origins by default
 
-responses = {
-    "hello": ["Hi", "Hey", "Go away", "Yo"],
-    "bye": ["Goodbye", "See ya", "Later"],
-    "thanks": ["You're welcome", "No problem", "Anytime"],
-    "default": ["Hmm", "Interesting...", "No idea", "Okay"]
-}
+RULES_JSON = os.environ.get('RULES_JSON', os.path.join(os.path.dirname(npttf2utf.__file__), 'map.json'))
+font_mapper = npttf2utf.FontMapper(RULES_JSON)
+
+# Try converting from Preeti to Unicode (this is the more common supported direction)
+
+
+
+
+
 
 @app.route('/')
 def home():
@@ -19,14 +23,14 @@ def home():
 @app.route('/api/random-response', methods=['POST'])
 def random_response():
     data = request.json
-    user_word = data.get("word", "").lower()
+    user_word = data.get("word", "")
 
-    word_responses = responses.get(user_word, responses["default"])
-    response = random.choice(word_responses)
+    word_responses = font_mapper.map_to_unicode(user_word)
+
 
     return jsonify({
         "input": user_word,
-        "response": response
+        "response": word_responses
     })
 
 if __name__ == '__main__':
