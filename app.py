@@ -20,7 +20,7 @@ font_mapper = npttf2utf.FontMapper(RULES_JSON)
 def home():
     return "Random Word Response API is live!"
 
-@app.route('/api/random-response', methods=['POST'])
+@app.route('/api/unicode', methods=['POST'])
 def random_response():
     data = request.json
     user_word = data.get("word", "")
