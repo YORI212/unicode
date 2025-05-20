@@ -28,10 +28,7 @@ def random_response():
     word_responses = font_mapper.map_to_unicode(user_word)
 
 
-    return jsonify({
-        "input": user_word,
-        "response": word_responses
-    })
+    return jsonify({"converted": word_ressponses})
 
 if __name__ == '__main__':
     app.run(debug=True)
