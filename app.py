@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import random
 
 app = Flask(__name__)
+CORS(app)  # 👈 Allow all origins by default
 
-# Dictionary mapping input words to possible responses
 responses = {
     "hello": ["Hi", "Hey", "Go away", "Yo"],
     "bye": ["Goodbye", "See ya", "Later"],
@@ -13,14 +14,13 @@ responses = {
 
 @app.route('/')
 def home():
-    return "Keyword-based random response API is running!"
+    return "Random Word Response API is live!"
 
 @app.route('/api/random-response', methods=['POST'])
 def random_response():
     data = request.json
     user_word = data.get("word", "").lower()
 
-    # Choose response list based on input; fall back to 'default'
     word_responses = responses.get(user_word, responses["default"])
     response = random.choice(word_responses)
 
