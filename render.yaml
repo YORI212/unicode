@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: random-word-api
+    env: python
+    buildCommand: ""
+    startCommand: gunicorn app:app
+    plan: free
